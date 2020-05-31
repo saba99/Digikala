@@ -271,5 +271,59 @@ restore_row=function(url,token,message_text){
 
 }
 
+add_tag=function(){
+const tag_list=document.getElementById('tag_list').value;
+
+const t=tag_list.split(',');
+
+const keywords=document.getElementById('keywords').value;
+
+let string=keywords;
+
+let count=document.getElementsByClassName('tag_div').length+1;
+
+for(let i=0;i<t.length;i++){
+
+    if(t[i].trim() !=''){
+
+        //alert(t[i]);
+
+        const n=keywords.search(t[i]);
+
+        if(n==-1){
+          const r="''"+t[i]+"'"; 
+           string=string+","+t[i];
+
+           var tag='<div class="tag_div" id="tag_div_'+count+'">'+
+               '<span  class="fa fa-remove" onclick="remove_tag(' + count + ',' + r +')"></span>'+t[i]+
+           '</div>';
+             count++;
+           $("#tag_box").append(tag);
+
+        }
+    }
+}
+document.getElementById('keywords').value=string;
+
+    document.getElementById('tag_list').value='';
+}
+remove_tag=function(id,text){
+
+$("#tag_div_"+id).hide();
+
+const  keywords=document.getElementById('keywords').value;
+
+const t1=text+",";
+
+const t2=","+text;
+
+let a =keywords.replace(t1,'');
+
+let b=a.replace(t2,'');
+
+document.getElementById('keywords').value=b;
+
+}
+
 
 

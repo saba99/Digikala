@@ -341,6 +341,7 @@ text-align: right !important;
      font-size: 13px;
      padding-top: 0px;
      padding-bottom: 0px;
+     max-height: 250px !important;
  }
  .dropdown-menu .dropdown-item{
      padding: 10px!important;
@@ -436,7 +437,132 @@ text-align: right !important;
 
     font-size:14px !important;
 }
+textarea{
 
+    resize:none;
+}
+
+.brand-description{
+    height: 170px;
+}
+
+.btn-success{
+    background:#00bfd6 !important ;
+    border-color: #00bfd6 !important;
+}
+.btn-primary{
+
+   background:#68a5ff !important;
+   border-color: #68a5ff !important;
+}
+
+.table tbody tr td{
+
+    vertical-align: middle;
+}
+.jscolor{
+
+    text-align:center !important;
+}
+
+.color{
+    padding:5px 10px 5px;
+    width:100px; 
+    color:white;
+}
+.total_width_input{
+
+    width:calc(100%-180px) !important;
+}
+
+.left{
+    text-align: left;
+}
+.col-md-6 .form-control{
+    width:100%;
+}
+
+.color_option{
+
+    color:white;
+    padding:5px;
+    border-radius:4px;
+    
+
+}
+
+.choice_pic_box{
+
+    background: #f8f8f8;
+    width:50%;
+     display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-top: 50px;
+    
+    border:1px dashed  #e5e5e5;
+    cursor: pointer;
+   /* position: relative; */
+
+}
+/* .choice_pic_box  .title{
+
+    position: absolute;
+    right:0px;
+    left:0px;
+    margin:auto;
+    bottom:0px;
+    top:0px;
+     width:145px;
+    height:20px; 
+    color:gray;
+
+} */
+.pic_tag{
+
+    margin:0px auto !important;
+    display: table;
+    max-width: 100%;
+    max-height: 300px;
+}
+#tag_list{
+
+    width:calc(100%-70px);
+
+    float:right;
+
+
+
+
+}
+.dropdown-toggle.bs-placeholder,
+.bootstrap-select>.dropdown-toggle.bs-placeholder:hover,
+.bootstrap-select>.dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select>.dropdown-toggle.bs-placeholder:active{
+
+
+    background-color: white;
+    margin-right: 50px;
+}
+
+.tag_div{
+    float:right;
+    margin-top: 5px 10px;
+    background: #f9f9f9;
+    margin-left:10px;
+    cursor:pointer;
+    
+}
+.message_text{
+
+font-size: 14px;
+color:red;
+}
+
+#tozihat{
+
+    width:100% !important;
+}
 
 
 

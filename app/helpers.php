@@ -78,5 +78,22 @@ else{
 return $string;
 
 }
+function create_crud_route($route_param,$controller,$show=false){
+
+    if($show){
+
+    Route::resource($route_param, 'Admin\\'.$controller);
+    }else{
+
+        Route::post($route_param.'/remove_items', 'Admin\\'.$controller.'@remove_items');
+
+    Route::post($route_param.'/restore_items', 'Admin\\'.$controller.'@restore_items');
+
+    
+
+    Route::post($route_param.'/{$route_param}', 'Admin\\'.$controller.'@restore'); 
+    }
+    
+}
 
 ?>

@@ -39,6 +39,43 @@ class Category extends Model
         return $array;
 
     }
+    public static function get_parent2()
+    {
+
+        $array = ['' => 'انتخاب دسته '];
+
+        $list = self::with('getChild.getChild')->where('parent_id', 0)->get();
+
+        foreach ($list as $key => $value) {
+
+
+            $array[$value->id] = $value->name;
+        }
+        foreach ($value->getChild as $key2 => $value2) {
+
+            $array[$value2->id] = '-' . $value2->name;
+
+            foreach ($value2->getChild as $key3 => $value3) {
+
+                $array[$value3->id] = '--' . $value3->name;
+            }
+
+        }
+
+
+        foreach ($value2->getChild as $key3 => $value3) {
+
+            $array[$value3->id] = '-' . $value3->name;
+
+            foreach ($value3->getChild as $key4 => $value4) {
+
+                $array[$value3->id] = '---' . $value3->name;
+            }
+        }
+        
+
+        return $array;
+    }
     public function getChild(){
 
         return $this->hasMany(Category::class,'parent_id','id');
