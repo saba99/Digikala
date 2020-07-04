@@ -12,7 +12,10 @@ class CustomController extends Controller{
 
 
     public function destroy($id)
-    {   
+    {     
+
+        $query_string=property_exists($this,'query_string') ? '&'.$this->query_string:'';
+
         $model_name="App\\".$this->model;
 
         echo $model_name;
@@ -48,7 +51,7 @@ class CustomController extends Controller{
                 $row->forceDelete();
             }
         }
-        return redirect('admin/category?trashed=true')->with('message', 'دسته به سطل زباله منتقل شد ');
+        return redirect('admin/category?trashed=true'.$query_string)->with('message', 'دسته به سطل زباله منتقل شد ');
     }
 
     public function restore_items(Request $request)
@@ -63,7 +66,7 @@ class CustomController extends Controller{
 
             $row->restore();
         }
-        return redirect('admin/category?trashed=true')->with('message', 'بازیابی دسته ها با موفقیت انجام شد  ');
+        return redirect('admin/category?trashed=true'.$query_string)->with('message', 'بازیابی دسته ها با موفقیت انجام شد  ');
     }
 
     public function restore($id)

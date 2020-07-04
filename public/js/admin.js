@@ -75,7 +75,13 @@ $('.page-content').css('margin-right','50px');
 //  $(document).ready(function(){
 
 //  set_sidebar_width();
+const url=window.location.href.split('?')[0];
 
+$('#sidebar_menu a [href="'+url+'"]').parent().parent().addClass('active');
+  
+    $('#sidebar_menu a [href="' + url + '"]').parent().parent().find('a .fa-angle-left').addClass('fa-angle-down');
+
+    $('#sidebar_menu a [href="' + url + '"]').parent().parent().find('a .fa-angle-left').show();
 //  });
 
 // set_sidebar_width=function(){
@@ -110,6 +116,11 @@ select_file=function(){
 
     $("#pic").click();
 };
+//  s_mobile = function () {
+
+
+//      $("#mobile_pic").click();
+//  };
 
 loadFile=function(){
 
@@ -123,6 +134,18 @@ output.src=render.result;
 
 
 };
+// l_mobile = function () {
+
+//       const render = new FileReader();
+
+//      render.onload = function (event) {
+
+//       const output = document.getElementById('output2');
+
+//           output.src = render.result;
+
+
+//   };
 
 render.readAsDataURL(event.target.files[0]);
 };
@@ -324,6 +347,36 @@ let b=a.replace(t2,'');
 document.getElementById('keywords').value=b;
 
 }
+
+add_item_input=function(){
+
+    const id=document.getElementsByClassName('item_input').length+1;
+
+const html='<div class="form-group item_groups"  id="item_-'+id+'">'+
+
+'<input type="text" class="form-control item_input" name="item[-'+id+']" placeholder="نام گروه ویژگی">'+
+'<span class="fa fa-plus-circle" onclick="add_child_input(-'+id+')"></span>'+
+'<div class="child_item_box" ></div>'
+'</div>';
+
+$("#item_box").append(html);
+
+};
+add_child_input=function(id){
+
+const child_count=document.getElementsByClassName('child_input_item').length+1;
+
+    const count = document.getElementsByClassName('child_'+id).length + 1;
+
+    const html='<div class="form-group child_'+id+'">'+
+
+   count+'- '+'<input type="checkbox" name="check_box_item['+id+'][-'+child_count+']">'+
+
+        '<input type="text" name="child_item[' + id + '][-' + child_count +']" class="form-control child_input_item" placeholder="نام ویژگی ">'
+    '</div>';
+
+    $("#item_"+id).find('.child_item_box').append(html);
+};
 
 
 

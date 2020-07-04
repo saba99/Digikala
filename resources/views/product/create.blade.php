@@ -14,6 +14,8 @@
     <div class="panel-content">
    
         {!! Form::open(['url' => 'admin/products','files'=>true]) !!}
+
+        @csrf
         
        <div class="container-left">
              {{--  @include('include.breadcrumb',['data'=>[['title'=>'مدیریت محصولات ','url'=>url('admin/products')],
@@ -130,7 +132,7 @@
     <lable>
         انتخاب رنگ های محصول:
     </lable>
-    <select class="selectpicker"   data-live-search="true" multiple="multiple" name="product_color">
+    <select class="selectpicker"   data-live-search="true" multiple="multiple" name="product_color[]">
              
         @foreach($colors as $key=>$value)
 

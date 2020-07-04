@@ -1,5 +1,10 @@
 <?php
 
+use App\Lib\Jdf;
+use App\Models\ProductWarranty;
+use App\Models\Warranty;
+use Illuminate\Support\Facades\DB;
+
 
 function get_url($string){
  
@@ -11,12 +16,12 @@ function get_url($string){
 return $url;
 
 }
-function upload_file($request,$name,$directory){
+function upload_file($request,$name,$directory,$pix=''){
 
 
     if($request->hasFile($name)){
 
-     $file_name=time().'.'.$request->file($name)->getClientOriginalExtension();
+     $file_name=$pix.time().'.'.$request->file($name)->getClientOriginalExtension();
 
      if($request->file($name)->move('files/'.$directory,$file_name)){
    
@@ -93,7 +98,119 @@ function create_crud_route($route_param,$controller,$show=false){
 
     Route::post($route_param.'/{$route_param}', 'Admin\\'.$controller.'@restore'); 
     }
-    
+   
+}
+function crete_fit_pic($pic_url,$pic_name){
+
+
+$thum=Image::make($pic_url);
+
+$thum->resize(350,350);
+
+$thum->save('files/thumbnails/'.$pic_name);
 }
 
+
+function remove_file($file_name,$directory){
+
+  if(!empty($file_name) && file_exists('files/'.$directory.'/'.$file_name)){
+
+   unlink('files/' . $directory . '/' . $file_name);
+
+   
+
+  }
+
+  function add_min_product_price($warranty){
+
+$jdf=new Jdf();
+$year=$jdf->tr_num($jdf->jdate('Y'));
+        $mount = $jdf->tr_num($jdf->jdate('n'));
+        $day = $jdf->tr_num($jdf->jdate('j'));
+
+        $has_row=DB::table('product_price')->where(['Year'=>$year,'mount'=>$mount,'day'=>$day,'color_id'=>$warranty->color_id,'product_id'=>$warranty->product_id])->first();
+        if($has_row){
+
+             if($warranty->price2< $has_row->price || $has_row->price==0){
+
+
+                DB::table('product_price')->where(['Year' => $year, 'mount' => $mount, 'day' => $day, 'color_id' => $warranty->color_id, 'product_id' => $warranty->product_id])->update(['price'=>$warranty->price2,'warranty_id'=>$warranty->id]);
+
+
+             }
+        }
+        else{
+            DB::table('product_price')->insert(
+                [
+                    'Year' => $year, 'mount' => $mount, 'day' => $day, 'color_id' => $warranty->color_id, 'product_id' => $warranty->product_id,
+                    'price'=>$warranty->price2,'time'=>time(),'warranty_id'=>$warranty->id
+                    
+                    ]
+                
+                );
+
+        }
+  }
+
+  function update_product_price($product){
+
+  $warranty=ProductWarranty::where('product_id',$product->id)->where('product_number','>',0)->orderBy('price2','ASC')->first();
+ if($warranty){
+            $product->price=$warranty->price2;
+            $product->status = 1;
+
+            $product->update();
+
+ }
+ else{
+
+    $product->status=0;
+
+    $product->update();
+ }
+
+  }
+
+  function check_has_product_warranty($warranty){
+
+
+$jdf=new Jdf();
+$year=$jdf->tr_num($jdf->jdate('Y'));
+        $mount = $jdf->tr_num($jdf->jdate('n'));
+        $day = $jdf->tr_num($jdf->jdate('j'));
+
+        $row=ProductWarranty::where(['product_id'=>$warranty->product_id,'color_id'=>$warranty->color_id])->Where('product_number','>',0)->orderBy('price2','ASC')->first();
+
+
+        $price=$row ?$row->price2 :0;
+
+        $warranty_id=$row ? $row->id :0;
+
+       $has_row=ProductPrice::where(['Year'=>$year,'mount'=>$mount,'day'=>$day,'color_id'=>$warranty->color_id,'product_id'=>$warranty->product_id])->first();
+
+       if($has_row){
+
+                  $has_row->price=$price;
+
+                  $has_row->warranty_id=$warranty_id;
+
+                  $has_row->update();
+       }
+       else{
+
+         DB::table('product_price')->insert(
+                [
+                    'Year' => $year, 'mount' => $mount, 'day' => $day, 'color_id' => $warranty->color_id, 'product_id' => $warranty->product_id,
+                    'price'=>$warranty->price2,'time'=>time(),'warranty_id'=>$warranty->id
+                    
+                    ]
+                
+                );
+       }
+
+
+
+
+  }
+}
 ?>

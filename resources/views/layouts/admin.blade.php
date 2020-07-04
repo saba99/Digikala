@@ -6,8 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>پنل مدیریت  </title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{csrf_token()}}">
+     @yield('head')
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet"> 
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+
+   
 </head>
 <body>
  
@@ -28,9 +32,9 @@
                 </a>
                 <div class="child-menu">
 
-                    <a href="">مدیریت محصولات</a>
-                    <a href=""> افزودن محصولات</a>
-                    <a href=""> مدیریت دسته بندی ها</a>
+                    <a href="{{url('admin/products')}}">مدیریت محصولات</a>
+                    <a href="{{url('admin/products/create')}}"> افزودن محصولات</a>
+                    <a href="{{url('admin/category')}}"> مدیریت دسته بندی ها</a>
                 </div>
             </li>
                  <li>
@@ -70,7 +74,18 @@
 
     </div>
 </div> 
+<div id="loading_box">
 
+    <div  class="loading_div"> 
+        <span>
+        در حال ارسال اطلاعات 
+    </span>
+   <div class="loading">
+    
+   
+   </div>
+    </div>
+</div>
 
     <script src="{{ asset('js/jquery-3.5.1.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>

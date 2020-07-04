@@ -3,13 +3,25 @@
   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     گزینه ها
   </button>
+  @php 
+  $create_param='';
+  $trash_param='';
+  if(isset($queryString) && is_array($queryString)){
+
+$create_param='?'.$queryString['param'].'='.$queryString['value'];
+
+$trash_param='&'.$queryString['param'].'='.$queryString['value'];
+
+
+
+  }  @endphp
   <div class="dropdown-menu">
-   <a class="dropdown-item" href="{{url($route.'/create')}}">
+   <a class="dropdown-item" href="{{url($route.'/create'.$create_param)}}">
 <span class="fa fa-pencil"></span>
 <span>افزودن {{$title}} جدید</span>
    </a>
 
-    <a class="dropdown-item" href="{{url($route.'?trashed=true')}}">
+    <a class="dropdown-item" href="{{url($route.'?trashed=true'.$trash_param)}}">
 <span class="fa fa-trash"></span>
 <span>سطل زباله {{$count}}</span>
    </a>

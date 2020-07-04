@@ -68,10 +68,55 @@ Route::get('/','Admin\AdminController@index');
     // create_crud_route('colors', 'ColorController');
     // create_crud_route('products', 'ProductController',true);
 
-    
+
+    //WARRANTIES 
+
+    Route::post('warranties/remove_items', 'Admin\WarrantyController@remove_items');
+
+    Route::post('warranties/restore_items', 'Admin\WarrantyProductController@restore_items');
+
+    Route::resource('warranties', 'Admin\WarrantyController');
+
+    Route::post('warranties/{warranties}', 'Admin\WarrantyController@restore');
+
+//PRODUCT WARRANTIES 
+
+    Route::post('product_warranties/remove_items', 'Admin\ProductWarrantyController@remove_items');
+
+    Route::post('product_warranties/restore_items', 'Admin\ProductWarrantyProductController@restore_items');
+
+    Route::resource('product_warranties', 'Admin\ProductWarrantyController');
+
+    Route::post('product_warranties/{warranties}', 'Admin\ProductWarrantyController@restore');
+
+ 
+
+    Route::get('products/gallery/{id}','Admin\ProductController@gallery');
+
+    Route::post('products/gallery_upload/{id}','Admin\ProductController@upload');
+
+    Route::delete('products/gallery/{id}','Admin\ProductController@removeImageGallery');
+
+    Route::post('products/change_images_status/{id}', 'Admin\ProductController@change_images_status');
 
 
+    //SLIDERS 
 
+
+    Route::post('sliders/remove_items', 'Admin\SliderController@remove_items');
+
+    Route::post('sliders/restore_items', 'Admin\SliderProductController@restore_items');
+
+    Route::resource('sliders', 'Admin\SliderController');
+
+    Route::post('sliders/{warranties}', 'Admin\SliderController@restore');
+
+
+    //ITEMS
+
+    Route::get('category/{id}/items','Admin\ItemController@items');
+
+    Route::post('category/{id}/item', 'Admin\ItemController@add_items');
 });
 
 
