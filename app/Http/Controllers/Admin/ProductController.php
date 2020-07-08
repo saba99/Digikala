@@ -7,7 +7,10 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Filter;
+use App\Models\Item;
 use App\Models\Product;
+use App\Models\ProductFilter;
 use App\Models\ProductGallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -238,4 +241,93 @@ $n++;
    return 'ok';
 }
 
+public function items($id){
+
+
+$product=Product::where('id',$id)->select(['id','title','cat_id'])->firstOrFail();
+
+ $data=Item::getProductItemWithFilter($product);
+
+ $product_items=$data['items'];
+
+ $filters=$data['filters'];
+
+ $product_filters=ProductFilter::where('product_id',$product->id)->pluck('filter_id','filter_value')->toArray();
+
+
+return view('product.items',['filters'=>$filters,'product'=>$product,'product_items'=>$product_items,'product_filters'=>$product_filters]);
+
+}
+public function add_items($id,Request $request){
+             
+    
+        $product = Product::where('id', $id)->select(['id', 'title', 'cat_id'])->firstOrFail();
+         $item_value=$request->get('item_value');
+         $filter_value=$request->get('filter_value');
+DB::table('item_value')->where(['product_id'=>$id])->delete();
+        // dd($item_value);
+        foreach($item_value as $key=>$value){
+
+           foreach($value as $key2=>$value2){
+
+            if(!empty($value2)){
+
+                 DB::table('item_value')->insert([
+
+                    'product_id'=>$id,
+                    'item_id'=>$key,
+                    'item_value'=>$value2
+                 ]);
+
+            }
+           }
+
+               Item::addFilter($key,$filter_value,$id);
+        }
+
+        return  redirect()->back()->with('message','ثبت مشخصات فنی با موفقیت انجام شد ');
+}
+    
+public function filters($id){
+        $filter = Product::where('id', $id)->select(['id', 'title', 'cat_id'])->firstOrFail();
+
+       $product_filter=Filter::getProductFilter($filter);
+
+        return view('product.filter', ['filter' => $filter,'product_filter'=>$product_filter]);
+
+}
+public function add_filters($id,Request $request){
+
+//dd($request->all());
+
+$filter=$request->get('filter');
+
+        $filter = Product::where('id', $id)->select(['id', 'title', 'cat_id'])->firstOrFail();
+
+DB::table('item_value')->where(['product_id'=>$id])->delete();
+
+if(is_array($filter)){
+
+
+foreach($filter as $key=>$value){
+
+
+    if(is_array($value)){
+
+        foreach($value as $key2=>$value2){
+
+           DB::table('filter_product')->insert([
+             
+            'product_id'=>$id,
+            'filter_id'=>$key,
+            'filter_value'=>$value2
+
+           ]);
+        }
+    }
+}
+}
+
+return redirect()->back()->with('message','ثبت فیلتر ها با موفقیت انجام شد ');
+}
 }

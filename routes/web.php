@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//FRONTEND
+
+Route::get('/', 'Frontend\SiteController@index');
+
+
+
 
 Auth::routes();
 
@@ -117,6 +120,31 @@ Route::get('/','Admin\AdminController@index');
     Route::get('category/{id}/items','Admin\ItemController@items');
 
     Route::post('category/{id}/item', 'Admin\ItemController@add_items');
+
+    Route::delete('category/items/{id}', 'Admin\ItemController@destroy');
+
+//PRODUCT ITEMS 
+    Route::get('products/{id}/items','Admin\ProductController@items');
+
+
+    Route::post('products/{id}/items', 'Admin\ProductController@add_items');
+
+    Route::get('products/{id}/filters', 'Admin\ProductController@filters');
+
+
+    Route::post('products/{id}/filters', 'Admin\ProductController@add_filters');
+
+
+    //FILTER 
+    Route::get('category/{id}/filters', 'Admin\FilterController@filters');
+
+    Route::post('category/{id}/filters', 'Admin\FilterController@add_filters');
+
+    Route::delete('category/filters/{id}', 'Admin\FilterController@destroy');
+
+
+
+
 });
 
 

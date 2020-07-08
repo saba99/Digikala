@@ -11,48 +11,25 @@ use Illuminate\Http\Request;
 class ItemController extends Controller
 {
    
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
-   
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
    
     public function destroy($id)
     {
-        //
+       $item=Item::findOrFail($id);
+
+       $item->getChild()->delete();
+
+       $item->delete();
+
+       return redirect()->back()->with('message','حذف مشخصات فنی با موفقیت انجام شد ');
     }
 
     public function items($id){
 
         $category=Category::findOrFail($id);
 
-        return view('item.index',['category'=>$category]);
+        $items=Item::with('getChild')->where(['category_id'=>$id,'parent_id'=>0])->orderBy('position','ASC')->get();
+
+        return view('item.index',['category'=>$category,'items'=>$items]);
     } 
 
     public function add_items($cat_id,Request $request){

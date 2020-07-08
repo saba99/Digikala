@@ -377,6 +377,120 @@ const child_count=document.getElementsByClassName('child_input_item').length+1;
 
     $("#item_"+id).find('.child_item_box').append(html);
 };
+add_item_value_input=function(id){
+
+const html='<div  class="form-group">'+
+
+'<lable></lable>'+
+'<input name="item_value['+id+'][]" type="text" class="form-control">'+
+'</div>';
+
+$("#input_item_box_"+id).append(html);
+
+
+};
+
+add_filter_input=function(){
+
+    const id=document.getElementsByClassName('filer_input').length+1;
+
+
+
+const html='<div class="form-group item_groups" id="filter_-'+id+'">'+
+
+'<input type="text" class="form-control filter_input" name="filter[-'+id+']" placeholder="نام گروه فیلتر">'+
+'<span class="fa fa-plus-circle" onclick="add_filter_child_input(-'+id+')" ></span>'+
+'<div class="child_filter_box"></div>'+
+
+'</div>';
+
+$("#filter_box").append(html);
+
+
+};
+add_filter_child_input=function(id){
+
+    const child_count = document.getElementsByClassName('child_input_item').length + 1;
+
+    const count = document.getElementsByClassName('child_' + id).length + 1;
+
+    const html = '<div class="form-group child_' + id + '">' +
+
+        count + '- ' + 
+
+        '<input type="text" name="child_filter[' + id + '][-' + child_count + ']" class="form-control child_input_filter" placeholder="نام فیلتر ">'
+    '</div>';
+
+    $("#filter_" + id).find('.child_filter_box').append(html);
+
+
+
+};
+$('.item_filter_box ul li input[type="checkbox"]').click(function()){
+
+const filter=$(this).parent().parent().parent().parent().find('.filter_value');
+
+    const input = $(this).parent().parent().parent().parent().find('.item_value');
+
+const text=$(this).parent().text().trim();
+
+let value=input.val();
+
+let filter_value=filter.val();
+
+if($(this).is(":checked")){
+
+    if(value.trim()==''){
+
+        value=text;
+        filter_value=$(this).val();
+
+
+
+    }
+    else{
+                    value=value+","+text;
+
+                    filter_value=filter_value+"@"+$(this).val();
+
+                   
+    }
+    input.val(value);
+
+    filter.val(filter_value);
+}
+else{
+
+    value=value.replace(','+text,"");
+    value = value.replace( text+',' , "");
+    value = value.replace( text, "");
+    filter_value=filter_value.replace("@"+$(this).val(),"");
+
+    filter_value = filter_value.replace("@" + $(this).val(), "");
+
+    input.val(value);
+
+    filter.val(filter_value);
+    
+}
+$(".show_filter_box").click(function(){
+
+    const el=$(this).parent().find('.item_filter_box ul' );
+
+    const display=el.css('display');
+
+    if(display=='block'){
+
+        el.slideUp();
+    }else{
+
+        el.slideDown();
+    }
+
+
+
+});
+}
 
 
 

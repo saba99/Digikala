@@ -143,4 +143,19 @@ class Category extends Model
 
         });
     }
+
+    public static function get_show_category_count($catList)
+    
+    {
+
+        $n = 0;
+        foreach ($catList as $key => $value) {
+
+
+            if ($value->notShow == 0) {
+
+                $n++;
+            }
+        }
+    }
 }
