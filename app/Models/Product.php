@@ -80,4 +80,10 @@ return $array[$status] ;
       });
       
    }
+
+   public function getCat(){
+
+
+      return $this->hasOne(Category::class,'id','cat_id')->withDefault(['name'=>'']);
+   }
 }

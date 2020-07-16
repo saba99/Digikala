@@ -157,5 +157,12 @@ class Category extends Model
                 $n++;
             }
         }
+    } 
+
+    public static function getCatList(){
+
+        Category::with('getChild.getChild.getChild')->where('parent_id', 0)->get();
+
+
     }
 }

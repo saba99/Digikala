@@ -55,7 +55,7 @@
 
             <div class="content-box" id="app">
                 
-               {{-- @yield('content') --}}
+               {{--  @yield('content')  --}}
             </div>
         </div>
     </div>
@@ -88,6 +88,7 @@
 </div>
 
     <script src="{{ asset('js/jquery-3.5.1.js') }}" defer></script>
+    <script src="{{ asset('js/AdminVue.js') }}" defer ></script> 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/admin.js') }}" defer ></script> 
        

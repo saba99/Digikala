@@ -10,4 +10,11 @@ class ItemValue extends Model
 
 
     protected $fillable=['product_id','item_id','item_value'];
+
+    public function important_item()
+    { 
+
+        return $this->hasOne(Item::class,'id','item_id')->where('show_item',1);
+        
+    }
 }

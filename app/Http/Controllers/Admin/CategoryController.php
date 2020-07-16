@@ -71,6 +71,7 @@ class CategoryController extends Controller
          $category->url=get_url($request->get('ename'));
 
          $category->save();
+        cache()->forget('catList');
 
          return redirect('admin/category')->with('message','ثبت دسته با موفقیت انجام شد ');
 
@@ -111,7 +112,7 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {   
-
+         cache()->forget('catList');
         $data=$request->all();
         $category = Category::findOrFail($id);
         $notShow = $request->has('notShow') ? 1 : 0;

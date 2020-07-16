@@ -12,7 +12,7 @@ class ProductWarranty extends Model
     protected $table='product_warranties';
 
     
-    protected $fillable=['product_id', 'warranty_id','color_id','price1','price2','product_number','product_number','product_number_cart','send_time'];
+    protected $fillable=['product_id','offers_first_time','offers_last_time','offers_first_date','offers_last_date','offers', 'warranty_id','color_id','price1','price2','product_number','product_number','product_number_cart','send_time'];
 
 public static function getData($request){
 
@@ -37,8 +37,16 @@ public function getWarranty(){
 return $this->belongsTo(Warranty::class,'warranty_id','id')->withDefault(['name' => '', 'id' => 0]);
 
 }
+public function getProduct(){
 
 
+    return $this->hasOne(Product::class,'id','product_id')->select(['id','title','image_url','cat_id','product_url']);
+}
+public function itemValue(){
+
+
+    return $this->hasMany(ItemValue::class,'product_id','product_id');
+}
 
 
 
